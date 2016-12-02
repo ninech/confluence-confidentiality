@@ -71,6 +71,17 @@
             <artifactId>gson</artifactId>
             <version>2.2.2-atlassian-1</version>
         </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib</artifactId>
+            <version>${kotlin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-test</artifactId>
+            <version>${kotlin.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -85,6 +96,7 @@
                     <productDataVersion>${confluence.data.version}</productDataVersion>
                     <enableQuickReload>true</enableQuickReload>
                     <enableFastdev>false</enableFastdev>
+                    <allowGoogleTracking>false</allowGoogleTracking>
 
                     <!-- See here for an explanation of default instructions: -->
                     <!-- https://developer.atlassian.com/docs/advanced-topics/configuration-of-instructions-in-atlassian-plugins -->
@@ -131,17 +143,68 @@
                     <verbose>false</verbose>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-maven-plugin</artifactId>
+                <version>${kotlin.version}</version>
+                <executions>
+                    <execution>
+                        <id>compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>test-compile</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>test-compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-compile</id>
+                        <phase>none</phase>
+                    </execution>
+                    <execution>
+                        <id>default-testCompile</id>
+                        <phase>none</phase>
+                    </execution>
+                    <execution>
+                        <id>compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>testCompile</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
     <properties>
         <confluence.version>6.0.2</confluence.version>
         <confluence.data.version>6.0.2</confluence.data.version>
+        <create.content.version>6.0.19</create.content.version>
         <amps.version>6.2.6</amps.version>
         <plugin.testrunner.version>1.2.3</plugin.testrunner.version>
         <atlassian.spring.scanner.version>1.2.13</atlassian.spring.scanner.version>
         <!-- This key is used to keep the consistency between the key in atlassian-plugin.xml and the key to generate bundle. -->
         <atlassian.plugin.key>${project.groupId}.${project.artifactId}</atlassian.plugin.key>
+        <kotlin.version>1.0.5-2</kotlin.version>
     </properties>
 
 </project>

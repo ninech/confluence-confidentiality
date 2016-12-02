@@ -1,0 +1,69 @@
+{namespace Confluence.Templates.Plugins.ConfluenceConfidentiality}
+
+/**
+ * Renders the contents of the drop-down dialog.
+ * @param atlToken
+ * @param confidentiality
+ * @param possibleConfidentialities
+ */
+{template .show}
+    <div id="confluence-confidentiality-content">
+        <form id="confluence-confidentiality-form" class="aui">
+            <fieldset class="group" style="padding:0">
+                <legend style="margin-left:0; text-align:left;">
+                    <span>{getText('confluence-confidentiality.select')}</span>
+                </legend>
+                <input type="hidden" value="{$atlToken}" name="atl_token" />
+                {foreach $possibleConfidentiality in $possibleConfidentialities}
+                    <div class="radio">
+                            <input class="radio" type="radio"
+                                   name="confidentiality"
+                                   id="confluence-confidentiality-radio-{$possibleConfidentiality}"
+                                   value="{$possibleConfidentiality}"
+                                   {if $possibleConfidentiality == $confidentiality}
+                                   checked
+                                   {/if}
+                                   />
+                            <label for="confluence-confidentiality-radio-{$possibleConfidentiality}">{$possibleConfidentiality}</label>
+                    </div>
+                {/foreach}
+            </fieldset>
+            <div class="buttons-container">
+                <div class="buttons">
+                    <button id="confluence-confidentiality-submit" class="aui-button aui-button-primary">{getText('confluence-confidentiality.change')}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+{/template}
+
+/**
+ * Renders loading state
+ */
+{template .loading}
+    <div class="confluence-confidentiality-spinner-container">
+        <div class="spinner"></div>
+    </div>
+{/template}
+
+/**
+ * Renders warning message
+ */
+{template .loadError}
+    {call aui.message.warning}
+        {param content}
+            <p>{getText('confluence-confidentiality.error.load')}</p>
+        {/param}
+    {/call}
+{/template}
+
+/**
+ * Renders warning message
+ */
+{template .changeError}
+    {call aui.message.warning}
+        {param content}
+            <p>{getText('confluence-confidentiality.error.change')}</p>
+        {/param}
+    {/call}
+{/template}

@@ -1,0 +1,18 @@
+.banner-stats-spinner-container .spinner {
+    margin: auto;
+    padding-top: 40px;
+}
+
+/* BANNER OVERRIDES */
+#page-metadata-banner #banner-stats-wrapper {
+    padding: 0 10px 0 0;
+}
+
+/* AUI OVERRIDES */
+#page-metadata-banner .banner #banner-stats:hover {
+    border-color: #999;
+}
+#page-metadata-banner .banner #banner-stats.active {
+    border: 1px solid #ccc;
+    border-radius: 3.01px; /* http://blogs.atlassian.com/2012/11/rounded-corners-and-gradients-in-ie10-the-4-missing-pixels/ */
+}

@@ -3,8 +3,8 @@
         <description>${project.description}</description>
         <version>${project.version}</version>
         <vendor name="${project.organization.name}" url="${project.organization.url}" />
-        <param name="plugin-icon">images/pluginIcon.png</param>
-        <param name="plugin-logo">images/pluginLogo.png</param>
+        <param name="plugin-icon">images/clipboard_blue_solid_16x16.png</param>
+        <param name="plugin-logo">images/clipboard_blue_solid_72x72.png</param>
     </plugin-info>
 
     <!-- add our i18n resource -->
@@ -13,12 +13,37 @@
     <!-- add our web resources -->
     <web-resource key="confluence-confidentiality-resources" name="confluence-confidentiality Web Resources">
         <dependency>com.atlassian.auiplugin:ajs</dependency>
-        
+
+        <transformation extension="js">
+            <transformer key="jsI18n"/>
+        </transformation>
+        <transformation extension="soy">
+            <transformer key="soyTransformer"/>
+        </transformation>
+
+        <resource type="download" name="confluence-confidentiality.soy.js" location="soy/confluence-confidentiality.soy"/>
         <resource type="download" name="confluence-confidentiality.css" location="/css/confluence-confidentiality.css"/>
         <resource type="download" name="confluence-confidentiality.js" location="/js/confluence-confidentiality.js"/>
         <resource type="download" name="images/" location="/images"/>
 
-        <context>confluence-confidentiality</context>
+        <context>viewcontent</context>
+        <!--<context>confluence-confidentiality</context>-->
     </web-resource>
-    
+
+    <web-item key="confluence-confidentiality" name="${confluence-confidentiality.label}2" section="page.metadata.banner" weight="80">
+        <icon height="16" width="16">
+            <link linkId="confluence-confidentiality-icon">/download/resources/${project.groupId}.${project.artifactId}:confluence-confidentiality-resources/images/clipboard_grey_solid_16x16.png</link>
+        </icon>
+        <label key="confluence-confidentiality.label"/>
+        <tooltip key="confluence-confidentiality.label"/>
+        <link linkId="confluence-confidentiality" absolute="true"/>
+        <styleClass>aui-button aui-button-subtle</styleClass>
+    </web-item>
+
+    <rest key="confluence-confidentiality-rest" path="/confluence-confidentiality" version="1.0">
+        <description>Provides services for retrieving confidentiality of a page</description>
+    </rest>
+
+    <!--<component-import key="pageManager" interface="com.atlassian.confluence.pages.PageManager"/>-->
+    <!--<component-import key="contentPropertyManager" interface="com.atlassian.confluence.core.ContentPropertyManager"/>-->
 </atlassian-plugin>
