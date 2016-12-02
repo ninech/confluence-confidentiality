@@ -67,6 +67,7 @@ AJS.toInit(function ($) {
                 // Show spinner
                 dialogContent.html(Confluence.Templates.Plugins.ConfluenceConfidentiality.loading());
                 dialogContent.find(".spinner").spin("medium");
+                dataLoaded = false;
 
                 return false;
             }

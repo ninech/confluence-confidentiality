@@ -43,7 +43,4 @@
     <rest key="confluence-confidentiality-rest" path="/confluence-confidentiality" version="1.0">
         <description>Provides services for retrieving confidentiality of a page</description>
     </rest>
-
-    <!--<component-import key="pageManager" interface="com.atlassian.confluence.pages.PageManager"/>-->
-    <!--<component-import key="contentPropertyManager" interface="com.atlassian.confluence.core.ContentPropertyManager"/>-->
 </atlassian-plugin>

@@ -32,7 +32,20 @@ class ConfidentialityResource constructor(@ComponentImport val pageManager: Page
     }
 
     @POST
-    fun setConfidentiality(@QueryParam("pageId") pageId: Long): Response {
-        return Response.serverError().build()
+    fun setConfidentiality(@QueryParam("pageId") pageId: Long,
+                           @FormParam("confidentiality") newConfidentiality: String): Response {
+        try {
+            val page = pageManager.getPage(pageId)
+
+            contentPropertyManager.setStringProperty(page, "ch.nine.confluence-confidentiality.value", newConfidentiality)
+
+            val confidentiality = contentPropertyManager.getStringProperty(page, "ch.nine.confluence-confidentiality.value")
+
+            val response = Confidentiality(confidentiality ?: "confidential")
+
+            return Response.ok(response).build()
+        } catch (e: Exception) {
+            return Response.serverError().build()
+        }
     }
 }
