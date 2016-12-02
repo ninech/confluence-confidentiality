@@ -5,13 +5,16 @@
  * @param atlToken
  * @param confidentiality
  * @param possibleConfidentialities
+ * @param possibleConfidentialitiesNames
  */
 {template .show}
     <div id="confluence-confidentiality-content">
         <form id="confluence-confidentiality-form" class="aui">
             <fieldset class="group" style="padding:0">
-                <legend style="margin-left:0; text-align:left;">
-                    <span>{getText('confluence-confidentiality.select')}</span>
+                <legend style="margin-left: 0; text-align:left; padding: 0">
+                    <span>
+                        {getText('confluence-confidentiality.select')}
+                    </span>
                 </legend>
                 <input type="hidden" value="{$atlToken}" name="atl_token" />
                 {foreach $possibleConfidentiality in $possibleConfidentialities}
@@ -24,7 +27,9 @@
                                    checked
                                    {/if}
                                    />
-                            <label for="confluence-confidentiality-radio-{$possibleConfidentiality}">{$possibleConfidentiality}</label>
+                            <label for="confluence-confidentiality-radio-{$possibleConfidentiality}">
+                                {$possibleConfidentialitiesNames[$possibleConfidentiality]}
+                            </label>
                     </div>
                 {/foreach}
             </fieldset>

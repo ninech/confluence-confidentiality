@@ -6,6 +6,10 @@ AJS.toInit(function ($) {
     var url = AJS.contextPath() + "/rest/confluence-confidentiality/1.0/confluence-confidentiality?pageId=" + AJS.Meta.get("page-id");
     var currentConfidentiality;
 
+    var capitalize = function(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    };
+
     var updateLabelAndIcon = function(response) {
         currentConfidentiality = response.confidentiality;
 
@@ -32,7 +36,7 @@ AJS.toInit(function ($) {
             AJS.contextPath()
             + '/download/resources/ch.nine.confluence-confidentiality:confluence-confidentiality-resources/images/'
             + picture);
-        textNode.text(response.confidentiality)
+        textNode.text(capitalize(response.confidentiality))
     };
 
     var loadConfidentiality = function() {
@@ -79,6 +83,14 @@ AJS.toInit(function ($) {
                     }).fail(function() {
                         content.html(Confluence.Templates.Plugins.ConfluenceConfidentiality.loadError());
                     }).done(function (response) {
+                        var possibleConfidentialitiesNames = [];
+                        var possibleConfidentialities = response.possibleConfidentialities;
+                        var possibleConfidentialitiesLength = possibleConfidentialities.length;
+                        for (var i=0;i<possibleConfidentialitiesLength;i++) {
+                            possibleConfidentialitiesNames[possibleConfidentialities[i]] =
+                                capitalize(possibleConfidentialities[i]);
+                        }
+                        response.possibleConfidentialitiesNames = possibleConfidentialitiesNames;
                         response.pageId = AJS.Meta.get("page-id");
                         response.atlToken = AJS.Meta.get("atl-token");
                         content.html(Confluence.Templates.Plugins.ConfluenceConfidentiality.show(response));
