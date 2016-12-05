@@ -66,3 +66,13 @@ Use `admin:admin` as login.
 * jQuery Documentation: https://api.jquery.com/jQuery.ajax/
 * Soy / Closure templating reference: https://developers.google.com/closure/templates/docs/commands#if
 * Kotlin Reference: https://kotlinlang.org/docs/reference/
+
+# How to cut a release
+
+1. Change the version in pom.xml to `X.Y.Z`
+2. (atlas-)mvn package
+3. Test the package
+4. Run `VERSION=X.Y.Z git add pom.xml && git commit -m "Version ${VERSION}" && git tag "v${VERSION}"`
+5. Change the version in pom.xml to `X.Y.z-SNAPSHOT`, where `z=Z+1`
+6. Run `git add pom.xml && git commit -m "Prepareing for X.Y.z`
+7. Don't forget to `git push --tags origin`
