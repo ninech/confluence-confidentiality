@@ -26,6 +26,11 @@ class ConfidentialityResource constructor(@ComponentImport val pageManager: Page
     fun getConfidentiality(@QueryParam("pageId") pageId: Long): Response {
         try {
             val page = pageManager.getPage(pageId)
+
+            if (page == null) {
+                return notFound()
+            }
+
             val userCanViewPage = canUserView(page)
 
             if (!userCanViewPage) {
@@ -47,6 +52,11 @@ class ConfidentialityResource constructor(@ComponentImport val pageManager: Page
                            @FormParam("confidentiality") newConfidentiality: String): Response {
         try {
             val page = pageManager.getPage(pageId)
+
+            if (page == null) {
+                return notFound()
+            }
+
             val userCanViewPage = canUserView(page)
 
             if (!userCanViewPage) {
@@ -87,4 +97,6 @@ class ConfidentialityResource constructor(@ComponentImport val pageManager: Page
     private fun serverError() = Response.serverError().build()
 
     private fun forbidden() = Response.status(Response.Status.FORBIDDEN).build()
+
+    private fun notFound() = Response.status(Response.Status.NOT_FOUND).build()
 }
