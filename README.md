@@ -62,6 +62,7 @@ Use `admin:admin` as login.
 
 # How to cut a release
 
+0. Make sure, you're on _*master*_.
 1. Change the version in pom.xml to `X.Y.Z`
 2. `atlas-mvn clean package` (or `mvn clean package` if you don't have [Atlassian's tools](https://developer.atlassian.com/docs/getting-started/set-up-the-atlassian-plugin-sdk-and-build-a-project) installed)
 3. Test the package
@@ -69,3 +70,4 @@ Use `admin:admin` as login.
 5. Change the version in pom.xml to `X.Y.z-SNAPSHOT`, where `z=Z+1`
 6. Run `git add pom.xml && git commit -m "Preparing for X.Y.z"`
 7. Don't forget to `git push --tags origin`
+8. Upload the file `target/confluence-confidentiality-X.Y.Z.jar` to the [Github release page](https://github.com/ninech/confluence-confidentiality/releases).
