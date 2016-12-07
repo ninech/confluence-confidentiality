@@ -26,20 +26,20 @@ class ConfidentialityResource constructor(@ComponentImport val pageManager: Page
     fun getConfidentiality(@QueryParam("pageId") pageId: Long): Response {
         try {
             val page = pageManager.getPage(pageId)
+            val userCanViewPage = canUserView(page)
+
+            if (!userCanViewPage) {
+                return forbidden()
+            }
+
             val confidentiality = contentPropertyManager.getStringProperty(page, "ch.nine.confluence-confidentiality.value")
 
             val response = Confidentiality(confidentiality ?: "confidential", canUserEdit(page))
 
-            return Response.ok(response).build()
+            return ok(response)
         } catch (e: Exception) {
-            return Response.serverError().build()
+            return serverError()
         }
-    }
-
-    private fun canUserEdit(page: Page?): Boolean {
-        val confluenceUser = AuthenticatedUserThreadLocal.get()
-        val userCanEdit = permissionManager.hasPermission(confluenceUser, Permission.EDIT, page)
-        return userCanEdit
     }
 
     @POST
@@ -47,21 +47,47 @@ class ConfidentialityResource constructor(@ComponentImport val pageManager: Page
                            @FormParam("confidentiality") newConfidentiality: String): Response {
         try {
             val page = pageManager.getPage(pageId)
-            val userCanEdit = canUserEdit(page)
+            val userCanViewPage = canUserView(page)
 
-            if (userCanEdit) {
+            if (!userCanViewPage) {
+                return forbidden()
+            }
+
+            val userCanEditPage = canUserEdit(page)
+
+            if (userCanEditPage) {
                 contentPropertyManager.setStringProperty(page, "ch.nine.confluence-confidentiality.value", newConfidentiality)
 
                 val confidentiality = contentPropertyManager.getStringProperty(page, "ch.nine.confluence-confidentiality.value")
 
-                val response = Confidentiality(confidentiality ?: "confidential", userCanEdit)
+                val response = Confidentiality(confidentiality ?: "confidential", userCanEditPage)
 
-                return Response.ok(response).build()
+                return ok(response)
             } else {
-                return Response.status(Response.Status.FORBIDDEN).build()
+                return forbidden()
             }
         } catch (e: Exception) {
-            return Response.serverError().build()
+            return serverError()
         }
     }
+
+    private fun canUserEdit(page: Page?): Boolean {
+        return canUserDo(Permission.EDIT, page)
+    }
+
+    private fun canUserView(page: Page?): Boolean {
+        return canUserDo(Permission.VIEW, page)
+    }
+
+    private fun canUserDo(permission: Permission?, page: Page?): Boolean {
+        val confluenceUser = AuthenticatedUserThreadLocal.get()
+        val userCanEdit = permissionManager.hasPermission(confluenceUser, permission, page)
+        return userCanEdit
+    }
+
+    private fun ok(response: Confidentiality) = Response.ok(response).build()
+
+    private fun serverError() = Response.serverError().build()
+
+    private fun forbidden() = Response.status(Response.Status.FORBIDDEN).build()
 }
