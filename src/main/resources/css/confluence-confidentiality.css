@@ -16,3 +16,10 @@
     border: 1px solid #ccc;
     border-radius: 3.01px; /* http://blogs.atlassian.com/2012/11/rounded-corners-and-gradients-in-ie10-the-4-missing-pixels/ */
 }
+
+/* DIALOG OVERRIDES */
+#inline-dialog-confluence-confidentiality-dialog legend {
+    float: none;
+    width: auto;
+    font-weight: bold;
+}
