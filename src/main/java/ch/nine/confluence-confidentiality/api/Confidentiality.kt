@@ -9,7 +9,8 @@ import javax.xml.bind.annotation.XmlRootElement
  */
 
 @XmlRootElement
-class Confidentiality(private val confidentiality: String) {
+class Confidentiality(private val confidentiality: String,
+                      private val canUserEdit: Boolean) {
     private val possibleConfidentialities = arrayOf("public","internal","confidential")
 
     @XmlElement
@@ -20,5 +21,10 @@ class Confidentiality(private val confidentiality: String) {
     @XmlElement
     fun getPossibleConfidentialities() : Array<String> {
         return possibleConfidentialities
+    }
+
+    @XmlElement
+    fun getCanUserEdit() : Boolean {
+        return canUserEdit
     }
 }

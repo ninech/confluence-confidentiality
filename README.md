@@ -29,13 +29,13 @@ https://developer.atlassian.com/display/DOCS/Introduction+to+the+Atlassian+Plugi
 
 # Whishlist
 
-- [ ] Improve style of confidentiality selector
+- [X] Improve style of confidentiality selector
 - [ ] Full i18n (currently all confidentiality strings are not translated on the client side)
 - [ ] Client code independent of `possibleConfidentialities` (so that the server entirely defines the set of possible confidentiality levels entirely)
 - [ ] Admin UI (add/remove/rename possible confidentiality levels and change default confidentiality level)
 - [ ] Optional per-space confidentiality set / default confidentiality
-- [ ] Editing of the confidentiality tied to the edit preferences of the page
-- [ ] _or_: Change of confidentiality only possible within the editor
+- [X] Editing of the confidentiality tied to the edit preferences of the page
+- [ ] Change of confidentiality only possible within the editor
 - [ ] Chosen confidentiality has impact on user roles (e.g. that certain roles can't see 'Confidential' pages or can only see 'Public' pages)
 
 # Test the plugin locally

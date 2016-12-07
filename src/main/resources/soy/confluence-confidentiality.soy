@@ -72,3 +72,14 @@
         {/param}
     {/call}
 {/template}
+
+/**
+ * Renders warning message
+ */
+{template .forbidden}
+    {call aui.message.warning}
+        {param content}
+            <p>{getText('confluence-confidentiality.error.forbidden')}</p>
+        {/param}
+    {/call}
+{/template}
