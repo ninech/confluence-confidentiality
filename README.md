@@ -32,16 +32,17 @@ https://developer.atlassian.com/display/DOCS/Introduction+to+the+Atlassian+Plugi
 - [ ] Improve style of confidentiality selector
 - [ ] Full i18n (currently all confidentiality strings are not translated on the client side)
 - [ ] Client code independent of `possibleConfidentialities` (so that the server entirely defines the set of possible confidentiality levels entirely)
-- [ ] Admin UI (add/remove/rename possible confidentiality levels and change default confidentiality level) 
+- [ ] Admin UI (add/remove/rename possible confidentiality levels and change default confidentiality level)
 - [ ] Optional per-space confidentiality set / default confidentiality
 - [ ] Editing of the confidentiality tied to the edit preferences of the page
 - [ ] _or_: Change of confidentiality only possible within the editor
-- [ ] Chosen confidentiality has impact on user roles (e.g. that certain roles can't see 'Confidential' pages or can only see 'Public' pages) 
+- [ ] Chosen confidentiality has impact on user roles (e.g. that certain roles can't see 'Confidential' pages or can only see 'Public' pages)
 
-# Development Tips:
+# Test the plugin locally
 
-Run Confluence locally in Fastmode™: atlas-run --jvmargs "-Xmx4g -XX:MaxMetaspaceSize=4g"
-Make Project: atlas-mvn package (the local Confluence will automatically reload the code)
+Run Confluence locally in Fastmode™: `atlas-run --jvmargs "-Xmx4g -XX:MaxMetaspaceSize=4g"`
+
+Compile the project: `atlas-mvn package` (the local Confluence will automatically reload the code)
 
 Confluence locally runs on port 1990: `http://localhost:1990/confluence/`
 
