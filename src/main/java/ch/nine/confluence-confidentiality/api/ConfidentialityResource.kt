@@ -36,7 +36,7 @@ class ConfidentialityResource constructor(@ComponentImport val pageManager: Page
 
             val response = Confidentiality(confidentiality ?: "confidential", canUserEdit(page))
 
-            return ok(response)
+            return Response.ok(response).build()
         } catch (e: Exception) {
             return serverError()
         }
@@ -62,7 +62,7 @@ class ConfidentialityResource constructor(@ComponentImport val pageManager: Page
 
                 val response = Confidentiality(confidentiality ?: "confidential", userCanEditPage)
 
-                return ok(response)
+                return Response.ok(response).build()
             } else {
                 return forbidden()
             }
@@ -80,12 +80,9 @@ class ConfidentialityResource constructor(@ComponentImport val pageManager: Page
     }
 
     private fun canUserDo(permission: Permission?, page: Page?): Boolean {
-        val confluenceUser = AuthenticatedUserThreadLocal.get()
-        val userCanEdit = permissionManager.hasPermission(confluenceUser, permission, page)
+        val userCanEdit = permissionManager.hasPermission(AuthenticatedUserThreadLocal.get(), permission, page)
         return userCanEdit
     }
-
-    private fun ok(response: Confidentiality) = Response.ok(response).build()
 
     private fun serverError() = Response.serverError().build()
 
