@@ -1,12 +1,3 @@
-
-```
-********************************************
-
-    WARNING: THIS CODE IS A BLOODY HACK!
-
-********************************************
-```
-
 # confluence-confidentiality
 
 This is a Confluence plugin that provides a confidentiality setting for each page.

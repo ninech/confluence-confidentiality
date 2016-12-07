@@ -39,7 +39,7 @@ class ConfidentialityResource constructor(@ComponentImport val pageManager: Page
     private fun canUserEdit(page: Page?): Boolean {
         val confluenceUser = AuthenticatedUserThreadLocal.get()
         val userCanEdit = permissionManager.hasPermission(confluenceUser, Permission.EDIT, page)
-        return false//userCanEdit
+        return userCanEdit
     }
 
     @POST
