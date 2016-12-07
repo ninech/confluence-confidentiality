@@ -76,5 +76,5 @@ Use `admin:admin` as login.
 3. Test the package
 4. Run `export VERSION=X.Y.Z; git add pom.xml && git commit -m "Version ${VERSION}" && git tag "v${VERSION}"`
 5. Change the version in pom.xml to `X.Y.z-SNAPSHOT`, where `z=Z+1`
-6. Run `git add pom.xml && git commit -m "Prepareing for X.Y.z"`
+6. Run `git add pom.xml && git commit -m "Preparing for X.Y.z"`
 7. Don't forget to `git push --tags origin`
