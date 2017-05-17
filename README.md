@@ -64,7 +64,7 @@ Use `admin:admin` as login.
 
 0. Make sure, you're on _*master*_.
 1. Change the version in pom.xml to `X.Y.Z`
-2. `atlas-mvn clean package` (or `mvn clean package` if you don't have [Atlassian's tools](https://developer.atlassian.com/docs/getting-started/set-up-the-atlassian-plugin-sdk-and-build-a-project) installed)
+2. `atlas-mvn clean package` (You need to have [Atlassian's tools](https://developer.atlassian.com/docs/getting-started/set-up-the-atlassian-plugin-sdk-and-build-a-project) installed)
 3. Test the package
 4. Run `export VERSION=X.Y.Z; git add pom.xml && git commit -m "Version ${VERSION}" && git tag "v${VERSION}"`
 5. Change the version in pom.xml to `X.Y.z-SNAPSHOT`, where `z=Z+1`
