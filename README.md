@@ -71,3 +71,9 @@ Use `admin:admin` as login.
 6. Run `git add pom.xml && git commit -m "Preparing for X.Y.z"`
 7. Don't forget to `git push --tags origin`
 8. Upload the file `target/confluence-confidentiality-X.Y.Z.jar` to the [Github release page](https://github.com/ninech/confluence-confidentiality/releases).
+
+# About
+
+This confluence plugin is currently maintained and funded by [nine](https://nine.ch).
+
+[![logo of the company 'nine'](https://logo.apps.at-nine.ch/Dmqied_eSaoBMQwk3vVgn4UIgDo=/trim/500x0/logo_claim.png)](https://www.nine.ch)
