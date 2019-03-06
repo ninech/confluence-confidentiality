@@ -75,7 +75,7 @@ AJS.toInit(function ($) {
                         data: $.param(theForm.find('input[checked], input[type!=radio]'))
                     }).fail(function (jqXHR) {
                         dataLoaded = false;
-                        if (jqXHR.status == 403) {
+                        if (jqXHR.status === 403) {
                             dialogContent.html(Confluence.Templates.Plugins.ConfluenceConfidentiality.forbidden());
                         } else {
                             dialogContent.html(Confluence.Templates.Plugins.ConfluenceConfidentiality.changeError());
@@ -97,7 +97,7 @@ AJS.toInit(function ($) {
                         $.ajax({
                             url: url,
                             type: "GET",
-                            dataType: "json",
+                            dataType: "json"
                         }).fail(function () {
                             content.html(Confluence.Templates.Plugins.ConfluenceConfidentiality.loadError());
                         }).done(function (response) {
