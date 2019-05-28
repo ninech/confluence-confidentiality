@@ -1,39 +1,45 @@
 package ch.nine.confluence.confidentiality.service
 
+import ch.nine.confluence.confidentiality.ConfidentialityRepository
 import ch.nine.confluence.confidentiality.api.Confidentiality
-import com.atlassian.confluence.core.ContentPropertyManager
+import ch.nine.confluence.confidentiality.auditlog.AuditLogger
 import com.atlassian.confluence.pages.Page
 import com.atlassian.confluence.security.Permission
 import com.atlassian.confluence.security.PermissionManager
 import com.atlassian.confluence.user.AuthenticatedUserThreadLocal
 import com.atlassian.confluence.user.ConfluenceUser
-import com.atlassian.plugin.spring.scanner.annotation.component.Scanned
-import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport
+import org.apache.commons.lang3.tuple.ImmutablePair
 import org.apache.log4j.LogManager
+import java.util.Optional.ofNullable
 
 /**
- * Service responsible for getting appropriate confidentiality response per page.
+ * Class responsible for managing confidentiality response per page.
+ * Checks user permissions, and sends confidentiality changed events.
  */
-@Scanned
-class ConfidentialityService constructor(@ComponentImport val contentPropertyManager: ContentPropertyManager,
-                                         @ComponentImport val permissionManager: PermissionManager) {
+class ConfidentialityService constructor(private val repository: ConfidentialityRepository,
+                                         private val logger: AuditLogger,
+                                         private val permissionManager: PermissionManager) {
     companion object {
         private val log = LogManager.getLogger(this::class.java.name.substringBefore("\$Companion"))
     }
-    private val managerConfidentialityKey = "ch.nine.confluence-confidentiality.value"
 
     fun getConfidentiality(page: Page?): Confidentiality {
-        val confidentiality = contentPropertyManager.getStringProperty(page, managerConfidentialityKey)
-                ?: "confidential"
+        val confidentiality = repository.getConfidentiality(page)
         return Confidentiality(confidentiality, canUserEdit(page))
     }
 
     fun saveConfidentiality(page: Page, newConfidentiality: String): Confidentiality {
-        contentPropertyManager.setStringProperty(page, managerConfidentialityKey, newConfidentiality)
-        val confidentiality = contentPropertyManager.getStringProperty(page, managerConfidentialityKey) ?: "confidential"
-        val user = AuthenticatedUserThreadLocal.get()
-        log.info("User: $user is setting new confidentiality: $confidentiality for page: ${page.id}")
+        val oldConfidentiality = repository.getConfidentiality(page)
+        val confidentiality = repository.save(page, newConfidentiality)
+        auditLog(oldConfidentiality, newConfidentiality, page)
         return Confidentiality(confidentiality, canUserEdit(page))
+    }
+
+    private fun auditLog(old: String, new: String, page: Page) {
+        val user = ofNullable(AuthenticatedUserThreadLocal.get()).orElseThrow { RuntimeException("User cannot be unauthenticated!") }
+        val change = ImmutablePair.of(old, new)
+        log.info("User: ${user.name}, ${user.fullName} is changing confidentiality for page id: ${page.id}, change: $change")
+        logger.confidentialityChanged(page, change, user, permissionManager.isSystemAdministrator(user))
     }
 
     fun canUserEdit(page: Page?): Boolean {

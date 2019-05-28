@@ -3,8 +3,6 @@ package ch.nine.confluence.confidentiality.api
 import ch.nine.confluence.confidentiality.service.ConfidentialityService
 import com.atlassian.confluence.pages.Page
 import com.atlassian.confluence.pages.PageManager
-import com.atlassian.plugin.spring.scanner.annotation.component.Scanned
-import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport
 import org.apache.log4j.LogManager
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
@@ -14,11 +12,10 @@ import javax.ws.rs.core.Response
  * Controller that's responsible for validating permissions
  * and calls backend services that perform business logic.
  */
-@Scanned
 @Produces(MediaType.APPLICATION_JSON)
 @Path("confluence-confidentiality")
-class ConfidentialityResource constructor(@ComponentImport val pageManager: PageManager,
-                                          @ComponentImport val service: ConfidentialityService) {
+class ConfidentialityResource constructor(private val service: ConfidentialityService,
+                                          private val pageManager: PageManager) {
     companion object {
         private val log = LogManager.getLogger(this::class.java.name.substringBefore("\$Companion"))
     }
