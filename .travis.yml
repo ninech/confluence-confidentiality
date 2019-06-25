@@ -1,0 +1,46 @@
+language: java
+
+jdk:
+  - oraclejdk8
+
+addons:
+  apt:
+    sources:
+    - sourceline: 'deb https://packages.atlassian.com/debian/atlassian-sdk-deb/ stable contrib'
+      key_url: 'https://packages.atlassian.com/api/gpg/key/public'
+    packages:
+    - atlassian-plugin-sdk
+
+install:
+  - mvn clean test-compile -DskipTests=true -Dmaven.javadoc.skip=true --batch-mode -V
+after_success:
+  - mvn coveralls:report --batch-mode
+  - mvn -P enable-jacoco install jacoco:report --batch-mode
+  - mvn -DskipTests=true verify
+
+stages:
+  - compile
+  - test
+  - name: deploy
+    if: branch = master
+
+jobs:
+  include:
+    - stage: compile
+      script: atlas-mvn install
+    - stage: test
+      script: atlas-unit-test
+    - stage: GitHub Release
+      script: atlas-mvn clean package
+      deploy:
+        provider: releases
+        api_key: $GITHUB_OAUTH_TOKEN
+        file: target/confluence-confidentiality-*.jar
+        file_glob: true
+        skip_cleanup: true
+        on:
+          tags: true
+
+cache:
+  directories:
+    - $HOME/.m2
