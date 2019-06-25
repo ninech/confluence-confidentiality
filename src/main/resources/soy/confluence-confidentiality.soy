@@ -5,7 +5,7 @@
  * @param atlToken
  * @param confidentiality
  * @param possibleConfidentialities
- * @param possibleConfidentialitiesNames
+ * @param possibleConfidentialityNames
  */
 {template .show}
     <div id="confluence-confidentiality-content">
@@ -28,7 +28,7 @@
                                    {/if}
                                    />
                             <label for="confluence-confidentiality-radio-{$possibleConfidentiality}">
-                                {$possibleConfidentialitiesNames[$possibleConfidentiality]}
+                                {$possibleConfidentialityNames[$possibleConfidentiality]}
                             </label>
                     </div>
                 {/foreach}
