@@ -1,21 +1,5 @@
 /* global AJS:false, Confluence:false */
 
-const pictogram = confidentiality => {
-  switch (confidentiality) {
-    case "public":
-      return "eye";
-    case "internal":
-      return "eye_hidden";
-    case "confidential":
-      return "lock";
-    default:
-      return "clipboard";
-  }
-};
-
-const capitalize = str =>
-  str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-
 AJS.toInit($ => {
   const dialogId = "confluence-confidentiality-dialog";
   const webItem = $("#confluence-confidentiality");
@@ -28,6 +12,22 @@ AJS.toInit($ => {
   let currentConfidentiality;
   let userCanEdit = false;
   let eventRegistered = false;
+
+  const pictogram = confidentiality => {
+    switch (confidentiality) {
+      case "public":
+        return "eye";
+      case "internal":
+        return "eye_hidden";
+      case "confidential":
+        return "lock";
+      default:
+        return "clipboard";
+    }
+  };
+
+  const capitalize = str =>
+    str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
   const updateLabelAndIcon = response => {
     currentConfidentiality = response.confidentiality;
