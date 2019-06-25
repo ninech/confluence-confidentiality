@@ -1,1 +1,4 @@
 target/
+## IDE IDEA local config files:
+.idea/
+*.iml

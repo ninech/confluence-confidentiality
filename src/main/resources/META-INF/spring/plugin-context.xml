@@ -1,10 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:atlassian-scanner="http://www.atlassian.com/schema/atlassian-scanner"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-        http://www.atlassian.com/schema/atlassian-scanner
-        http://www.atlassian.com/schema/atlassian-scanner/atlassian-scanner.xsd">
-    <atlassian-scanner:scan-indexes/>
+       xmlns:osgi="http://www.springframework.org/schema/osgi"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd"
+       default-autowire="constructor">
+
+    <context:component-scan base-package="ch.nine.confluence.confidentiality"/>
+
+    <bean id="confidentialityResource" class="ch.nine.confluence.confidentiality.api.ConfidentialityResource">
+        <constructor-arg ref="confidentialityService" />
+        <constructor-arg ref="pageManager" />
+    </bean>
+    <bean id="confidentialityService" class="ch.nine.confluence.confidentiality.service.ConfidentialityService">
+        <constructor-arg ref="confidentialityRepository"/>
+        <constructor-arg ref="auditLogger"/>
+        <constructor-arg ref="permissionManager"/>
+    </bean>
+    <bean id="confidentialityRepository" class="ch.nine.confluence.confidentiality.ConfidentialityRepository">
+        <constructor-arg ref="contentPropertyManager" />
+    </bean>
+    <bean id="auditLogger" class="ch.nine.confluence.confidentiality.auditlog.AuditLogger">
+        <constructor-arg ref="auditService" />
+    </bean>
+
+    <osgi:reference id="pageManager" interface="com.atlassian.confluence.pages.PageManager" />
+    <osgi:reference id="auditService" interface="com.atlassian.confluence.api.service.audit.AuditService" />
+    <osgi:reference id="permissionManager" interface="com.atlassian.confluence.security.PermissionManager"/>
+    <osgi:reference id="contentPropertyManager" interface="com.atlassian.confluence.core.ContentPropertyManager"/>
+
 </beans>

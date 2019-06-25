@@ -1,13 +1,12 @@
-package ch.nine.`confluence-confidentiality`.api
+package ch.nine.confluence.confidentiality.api
 
 import javax.xml.bind.annotation.XmlElement
 import javax.xml.bind.annotation.XmlRootElement
 
 /**
- * Created by cmaeder on 01.12.16.
- *
+ * Simple transport object, that holds information about confidentiality
+ * for JavaScript part of the plugin.
  */
-
 @XmlRootElement
 class Confidentiality(private val confidentiality: String,
                       private val canUserEdit: Boolean) {
