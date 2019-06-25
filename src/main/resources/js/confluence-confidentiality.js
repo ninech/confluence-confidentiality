@@ -120,20 +120,25 @@ AJS.toInit($ => {
                 )
               )
               .done(response => {
-                response.possibleConfidentialityNames = [];
-                response.possibleConfidentialities.forEach(c => {
-                  response.possibleConfidentialityNames[c] = capitalize(c);
-                });
-                response.pageId = AJS.Meta.get("page-id");
-                response.atlToken = AJS.Meta.get("atl-token");
                 content.html(
-                  Confluence.Templates.Plugins.ConfluenceConfidentiality.show(
-                    response
-                  )
+                  Confluence.Templates.Plugins.ConfluenceConfidentiality.show({
+                    pageId: AJS.Meta.get("page-id"),
+                    atlToken: AJS.Meta.get("atl-token"),
+                    possibleConfidentialityNames: response.possibleConfidentialities.reduce(
+                      (names, c) => {
+                        names[c] = capitalize(c);
+                        return names;
+                      },
+                      []
+                    ),
+                    ...response
+                  })
                 );
+
                 const theForm = content.find(
                   "#confluence-confidentiality-form"
                 );
+
                 content
                   .find("#confluence-confidentiality-submit")
                   .click(saveFn(theForm, content));

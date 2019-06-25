@@ -4,3 +4,6 @@ env:
 extends: 
   - eslint:recommended
   - plugin:prettier/recommended
+parserOptions:
+  ecmaFeatures:
+    experimentalObjectRestSpread: true
